@@ -11,7 +11,7 @@
     "test": "jest --passWithNoTests --runInBand",
     "test:staged": "npm run test -- --findRelatedTests",
     "test:ci": "npm run test -- --coverage",
-    "lint": "eslint --ignore-path .gitignore --ext .ts --fix",
+    "lint": "eslint --ignore-path .gitignore --ext .ts --fix"
   },
   "repository": {
     "type": "git",
