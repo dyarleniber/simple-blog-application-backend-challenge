@@ -1,0 +1,30 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": [
+        "jest.config.ts"
+    ],
+    "rules": {
+        "import/export": "off",
+        "import/prefer-default-export": "off",
+        "class-methods-use-this": "off",
+        "max-classes-per-file": "off",
+        "arrow-body-style": "off",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    }
+}
