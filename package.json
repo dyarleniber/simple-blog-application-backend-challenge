@@ -2,9 +2,16 @@
   "name": "simple-blog-application",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "build:watch": "npm run build -- --watch",
+    "dev": "nodemon -L --watch ./dist ./dist/main/server.js",
+    "test": "jest --passWithNoTests --runInBand",
+    "test:staged": "npm run test -- --findRelatedTests",
+    "test:ci": "npm run test -- --coverage",
+    "lint": "eslint --ignore-path .gitignore --ext .ts --fix",
   },
   "repository": {
     "type": "git",
@@ -29,6 +36,7 @@
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.4.7",
     "nodemon": "^2.0.15",
+    "rimraf": "^3.0.2",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
