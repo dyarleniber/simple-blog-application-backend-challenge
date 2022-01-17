@@ -11,10 +11,10 @@ describe('DbConnection', () => {
   });
 
   it('should reconnect if mongodb is down', async () => {
-    let collection = await DbConnection.getCollection('users');
+    let collection = await DbConnection.getCollection('posts');
     expect(collection).toBeTruthy();
     await DbConnection.disconnect();
-    collection = await DbConnection.getCollection('users');
+    collection = await DbConnection.getCollection('posts');
     expect(collection).toBeTruthy();
   });
 });

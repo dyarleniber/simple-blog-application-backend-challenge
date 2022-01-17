@@ -8,6 +8,8 @@ export interface UpdatePostInterface
 }
 
 export namespace UpdatePostInterface {
-  export type Request = { postId: string, postData: Partial<Omit<PostProps, 'id' | 'userId' | 'totalComments' | 'createdAt' | 'updatedAt'>> };
+  export type PostIdType = string;
+  export type PostDataType = Partial<Omit<PostProps, 'id' | 'userId' | 'totalComments' | 'createdAt' | 'updatedAt'>>;
+  export type Request = { postId: PostIdType, postData: PostDataType };
   export type Response = Post | PostNotFoundError;
 }
