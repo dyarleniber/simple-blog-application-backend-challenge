@@ -25,6 +25,7 @@
         "class-methods-use-this": "off",
         "max-classes-per-file": "off",
         "arrow-body-style": "off",
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-empty-function": "off"
     }
 }
