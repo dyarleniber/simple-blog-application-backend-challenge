@@ -2,14 +2,16 @@ import { UpdatePostInterface } from '@application/interfaces/use-cases/posts/Upd
 import { BaseController } from '@infra/http/controllers/BaseController';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { HttpResponse } from '@infra/http/interfaces/HttpResponse';
+import { Validation } from '@infra/http/interfaces/Validation';
 import { notFound, ok } from '@infra/http/helpers/http';
 import { PostNotFoundError } from '@application/errors/PostNotFoundError';
 
 export class UpdatePostController extends BaseController {
   constructor(
+    private readonly updatePostValidation: Validation,
     private readonly updatePost: UpdatePostInterface,
   ) {
-    super();
+    super(updatePostValidation);
   }
 
   async execute(
