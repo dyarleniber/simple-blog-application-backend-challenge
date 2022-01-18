@@ -67,7 +67,7 @@ export class CommentRepository implements
     const { postId, page, paginationLimit } = params;
     const offset = (page - 1) * paginationLimit;
     const rawComments = await collection
-      .find({ postId })
+      .find({ postId: Number(postId) })
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(paginationLimit)
