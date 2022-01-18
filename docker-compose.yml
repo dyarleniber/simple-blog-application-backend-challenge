@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongodb:
+    container_name: simple-blog-mongodb
+    image: mongo:4
+    restart: always
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+  api:
+    container_name: simple-blog-api
+    image: node:14
+    working_dir: /usr/src/app
+    restart: always
+    command: bash -c "npm install && npm run dev"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/simple-blog-db
+    volumes:
+      - ./dist/:/usr/src/app/dist/
+      - ./package.json:/usr/src/app/package.json
+    ports:
+      - "5050:5050"
+      - "9222:9222"
+    links:
+      - mongodb
