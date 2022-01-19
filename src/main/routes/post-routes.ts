@@ -5,11 +5,12 @@ import { makeDeletePostController } from '@main/factories/controllers/posts/dele
 import { makeGetLatestPostsController } from '@main/factories/controllers/posts/get-latest-posts/controller-factory';
 import { makeGetPostByIdController } from '@main/factories/controllers/posts/get-post-by-id/controller-factory';
 import { makeUpdatePostController } from '@main/factories/controllers/posts/update-post/controller-factory';
+import { authMiddleware } from '@main/middlewares/auth-middleware';
 
 export default (router: Router): void => {
-  router.post('/posts', expressRouteAdapter(makeCreatePostController()));
-  router.delete('/posts/:id', expressRouteAdapter(makeDeletePostController()));
-  router.get('/posts', expressRouteAdapter(makeGetLatestPostsController()));
-  router.get('/posts/:id', expressRouteAdapter(makeGetPostByIdController()));
-  router.patch('/posts/:id', expressRouteAdapter(makeUpdatePostController()));
+  router.post('/posts', authMiddleware, expressRouteAdapter(makeCreatePostController()));
+  router.delete('/posts/:id', authMiddleware, expressRouteAdapter(makeDeletePostController()));
+  router.get('/posts', authMiddleware, expressRouteAdapter(makeGetLatestPostsController()));
+  router.get('/posts/:id', authMiddleware, expressRouteAdapter(makeGetPostByIdController()));
+  router.patch('/posts/:id', authMiddleware, expressRouteAdapter(makeUpdatePostController()));
 };

@@ -4,10 +4,11 @@ import { makeCreateCommentController } from '@main/factories/controllers/comment
 import { makeDeleteCommentController } from '@main/factories/controllers/comments/delete-comment/controller-factory';
 import { makeGetLatestCommentsByPostIdController } from '@main/factories/controllers/comments/get-latest-comments-by-post-id/controller-factory';
 import { makeUpdateCommentController } from '@main/factories/controllers/comments/update-comment/controller-factory';
+import { authMiddleware } from '@main/middlewares/auth-middleware';
 
 export default (router: Router): void => {
-  router.post('/comments', expressRouteAdapter(makeCreateCommentController()));
-  router.delete('/comments/:id', expressRouteAdapter(makeDeleteCommentController()));
-  router.get('/comments/:postId', expressRouteAdapter(makeGetLatestCommentsByPostIdController()));
-  router.patch('/comments/:id', expressRouteAdapter(makeUpdateCommentController()));
+  router.post('/comments', authMiddleware, expressRouteAdapter(makeCreateCommentController()));
+  router.delete('/comments/:id', authMiddleware, expressRouteAdapter(makeDeleteCommentController()));
+  router.get('/comments/:postId', authMiddleware, expressRouteAdapter(makeGetLatestCommentsByPostIdController()));
+  router.patch('/comments/:id', authMiddleware, expressRouteAdapter(makeUpdateCommentController()));
 };
