@@ -1,4 +1,5 @@
 import { UpdatePostController } from '@infra/http/controllers/posts/UpdatePostController';
+import { ValidationStub } from '@tests/infra/mocks/validators';
 import { UpdatePostStub } from '@tests/application/mocks/posts/use-cases';
 import { notFound, ok } from '@infra/http/helpers/http';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
@@ -7,15 +8,18 @@ import { PostNotFoundError } from '@application/errors/PostNotFoundError';
 
 type SutTypes = {
   sut: UpdatePostController;
+  validationStub: ValidationStub;
   updatePostStub: UpdatePostStub;
 };
 
 const makeSut = (): SutTypes => {
+  const validationStub = new ValidationStub();
   const updatePostStub = new UpdatePostStub();
-  const sut = new UpdatePostController(updatePostStub);
+  const sut = new UpdatePostController(validationStub, updatePostStub);
   return {
     sut,
     updatePostStub,
+    validationStub,
   };
 };
 
