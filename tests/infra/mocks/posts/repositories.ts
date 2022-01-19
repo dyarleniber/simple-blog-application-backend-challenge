@@ -4,6 +4,7 @@ import { DeletePostRepository } from '@application/interfaces/repositories/posts
 import { GetLatestPostsRepository } from '@application/interfaces/repositories/posts/GetLatestPostsRepository';
 import { GetPostByIdRepository } from '@application/interfaces/repositories/posts/GetPostByIdRepository';
 import { UpdatePostRepository } from '@application/interfaces/repositories/posts/UpdatePostRepository';
+import { UpdatePostTotalCommentsRepository } from '@application/interfaces/repositories/posts/UpdatePostTotalCommentsRepository';
 import { makeFakePost } from '@tests/domain/mocks/entities';
 
 export const makeFakePaginationData = (data: Post[]): {
@@ -52,6 +53,14 @@ export class UpdatePostRepositoryStub implements UpdatePostRepository {
   async updatePost(
     _params: UpdatePostRepository.Request,
   ): Promise<UpdatePostRepository.Response> {
+    return makeFakePost();
+  }
+}
+
+export class UpdatePostTotalCommentsRepositoryStub implements UpdatePostTotalCommentsRepository {
+  async updatePostTotalComments(
+    _params: UpdatePostTotalCommentsRepository.Request,
+  ): Promise<UpdatePostTotalCommentsRepository.Response> {
     return makeFakePost();
   }
 }

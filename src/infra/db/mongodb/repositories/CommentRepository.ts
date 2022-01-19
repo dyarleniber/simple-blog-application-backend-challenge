@@ -21,7 +21,7 @@ export class CommentRepository implements
   DeleteCommentsByPostIdRepository,
   GetCommentByIdRepository,
   GetLatestCommentsByPostIdRepository,
-    GetTotalCommentsByPostIdRepository,
+  GetTotalCommentsByPostIdRepository,
   UpdateCommentRepository {
   static async getCollection(): Promise<Collection> {
     return DbConnection.getCollection('comments');
@@ -67,13 +67,13 @@ export class CommentRepository implements
     const { postId, page, paginationLimit } = params;
     const offset = (page - 1) * paginationLimit;
     const rawComments = await collection
-      .find({ postId: Number(postId) })
+      .find({ postId })
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(paginationLimit)
       .toArray();
     const comments = mapCollection(rawComments);
-    const total = await collection.countDocuments();
+    const total = await collection.countDocuments({ postId });
     const totalPages = Math.ceil(total / paginationLimit);
     return {
       data: comments, page, total, totalPages,

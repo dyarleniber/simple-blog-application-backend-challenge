@@ -1,5 +1,6 @@
 import { DeleteCommentInterface } from '@application/interfaces/use-cases/comments/DeleteCommentInterface';
 import { GetCommentByIdInterface } from '@application/interfaces/use-cases/comments/GetCommentByIdInterface';
+import { UpdatePostTotalCommentsInterface } from '@application/interfaces/use-cases/posts/UpdatePostTotalCommentsInterface';
 import { BaseController } from '@infra/http/controllers/BaseController';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { HttpResponse } from '@infra/http/interfaces/HttpResponse';
@@ -11,6 +12,7 @@ export class DeleteCommentController extends BaseController {
   constructor(
     private readonly getCommentById: GetCommentByIdInterface,
     private readonly deleteComment: DeleteCommentInterface,
+    private readonly updatePostTotalComments: UpdatePostTotalCommentsInterface,
   ) {
     super();
   }
@@ -28,6 +30,7 @@ export class DeleteCommentController extends BaseController {
       return forbidden(new PermissionError());
     }
     await this.deleteComment.execute(id);
+    await this.updatePostTotalComments.execute(commentOrError.postId);
     return noContent();
   }
 }

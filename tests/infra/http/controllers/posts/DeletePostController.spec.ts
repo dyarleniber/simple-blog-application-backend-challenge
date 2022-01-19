@@ -1,5 +1,6 @@
 import { DeletePostController } from '@infra/http/controllers/posts/DeletePostController';
 import { DeletePostStub, GetPostByIdStub } from '@tests/application/mocks/posts/use-cases';
+import { DeleteCommentsByPostIdStub } from '@tests/application/mocks/comments/use-cases';
 import { forbidden, noContent, notFound } from '@infra/http/helpers/http';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { makeFakePost } from '@tests/domain/mocks/entities';
@@ -10,16 +11,19 @@ type SutTypes = {
   sut: DeletePostController;
   getPostByIdStub: GetPostByIdStub;
   deletePostStub: DeletePostStub;
+  deleteCommentsByPostIdStub: DeleteCommentsByPostIdStub
 };
 
 const makeSut = (): SutTypes => {
   const getPostByIdStub = new GetPostByIdStub();
   const deletePostStub = new DeletePostStub();
-  const sut = new DeletePostController(getPostByIdStub, deletePostStub);
+  const deleteCommentsByPostIdStub = new DeleteCommentsByPostIdStub();
+  const sut = new DeletePostController(getPostByIdStub, deletePostStub, deleteCommentsByPostIdStub);
   return {
     sut,
     getPostByIdStub,
     deletePostStub,
+    deleteCommentsByPostIdStub,
   };
 };
 
@@ -32,12 +36,20 @@ const makeFakeHttpRequest = (): HttpRequest => {
 };
 
 describe('DeletePostController', () => {
-  it('should call DeletePost with correct params', async () => {
+  it('should call DeletePost with correct id', async () => {
     const { sut, deletePostStub } = makeSut();
     const deletePostSpy = jest.spyOn(deletePostStub, 'execute');
     const httpRequest = makeFakeHttpRequest();
     await sut.handle(httpRequest);
     expect(deletePostSpy).toHaveBeenCalledWith(httpRequest.params.id);
+  });
+
+  it('should call DeleteCommentsByPostId with correct id', async () => {
+    const { sut, deleteCommentsByPostIdStub } = makeSut();
+    const deleteCommentsByPostIdSpy = jest.spyOn(deleteCommentsByPostIdStub, 'execute');
+    const httpRequest = makeFakeHttpRequest();
+    await sut.handle(httpRequest);
+    expect(deleteCommentsByPostIdSpy).toHaveBeenCalledWith(httpRequest.params.id);
   });
 
   it('should return 404 if GetPostById returns a PostNotFoundError', async () => {

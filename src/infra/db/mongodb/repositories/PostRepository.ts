@@ -45,7 +45,7 @@ export class PostRepository implements
       .limit(paginationLimit)
       .toArray();
     const posts = mapCollection(rawPosts);
-    const total = await collection.countDocuments();
+    const total = await collection.countDocuments({});
     const totalPages = Math.ceil(total / paginationLimit);
     return {
       data: posts, page, total, totalPages,

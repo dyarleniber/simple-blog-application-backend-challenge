@@ -1,5 +1,6 @@
 import { CreateCommentInterface } from '@application/interfaces/use-cases/comments/CreateCommentInterface';
 import { GetPostByIdInterface } from '@application/interfaces/use-cases/posts/GetPostByIdInterface';
+import { UpdatePostTotalCommentsInterface } from '@application/interfaces/use-cases/posts/UpdatePostTotalCommentsInterface';
 import { BaseController } from '@infra/http/controllers/BaseController';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { HttpResponse } from '@infra/http/interfaces/HttpResponse';
@@ -12,6 +13,7 @@ export class CreateCommentController extends BaseController {
     private readonly createCommentValidation: Validation,
     private readonly getPostById: GetPostByIdInterface,
     private readonly createComment: CreateCommentInterface,
+    private readonly updatePostTotalComments: UpdatePostTotalCommentsInterface,
   ) {
     super(createCommentValidation);
   }
@@ -28,6 +30,7 @@ export class CreateCommentController extends BaseController {
     const id = await this.createComment.execute({
       userId, postId, title, text,
     });
+    await this.updatePostTotalComments.execute(postId);
     return ok({ id });
   }
 }

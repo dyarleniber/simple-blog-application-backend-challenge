@@ -1,5 +1,6 @@
 import { DeletePostInterface } from '@application/interfaces/use-cases/posts/DeletePostInterface';
 import { GetPostByIdInterface } from '@application/interfaces/use-cases/posts/GetPostByIdInterface';
+import { DeleteCommentsByPostIdInterface } from '@application/interfaces/use-cases/comments/DeleteCommentsByPostIdInterface';
 import { BaseController } from '@infra/http/controllers/BaseController';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { HttpResponse } from '@infra/http/interfaces/HttpResponse';
@@ -11,6 +12,7 @@ export class DeletePostController extends BaseController {
   constructor(
     private readonly getPostById: GetPostByIdInterface,
     private readonly deletePost: DeletePostInterface,
+    private readonly deleteCommentsByPostId: DeleteCommentsByPostIdInterface,
   ) {
     super();
   }
@@ -26,6 +28,7 @@ export class DeletePostController extends BaseController {
       return forbidden(new PermissionError());
     }
     await this.deletePost.execute(id);
+    await this.deleteCommentsByPostId.execute(id);
     return noContent();
   }
 }
