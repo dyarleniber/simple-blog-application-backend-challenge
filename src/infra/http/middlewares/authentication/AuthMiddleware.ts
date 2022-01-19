@@ -30,7 +30,6 @@ export class AuthMiddleware extends BaseMiddleware {
 
 export namespace AuthMiddleware {
   export type Request = HttpRequest<undefined, undefined, { authorization: string }>;
-  export type Response = HttpResponse<
-  { userId: string } | AuthTokenNotProvidedError | InvalidAuthTokenError
-  >;
+  export type Response =
+    HttpResponse<{ userId: string } | AuthTokenNotProvidedError | InvalidAuthTokenError>;
 }

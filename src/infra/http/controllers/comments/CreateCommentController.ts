@@ -1,13 +1,16 @@
 import { CreateCommentInterface } from '@application/interfaces/use-cases/comments/CreateCommentInterface';
+import { GetPostByIdInterface } from '@application/interfaces/use-cases/posts/GetPostByIdInterface';
 import { BaseController } from '@infra/http/controllers/BaseController';
 import { HttpRequest } from '@infra/http/interfaces/HttpRequest';
 import { HttpResponse } from '@infra/http/interfaces/HttpResponse';
 import { Validation } from '@infra/http/interfaces/Validation';
-import { ok } from '@infra/http/helpers/http';
+import { notFound, ok } from '@infra/http/helpers/http';
+import { PostNotFoundError } from '@application/errors/PostNotFoundError';
 
 export class CreateCommentController extends BaseController {
   constructor(
     private readonly createCommentValidation: Validation,
+    private readonly getPostById: GetPostByIdInterface,
     private readonly createComment: CreateCommentInterface,
   ) {
     super(createCommentValidation);
@@ -16,9 +19,12 @@ export class CreateCommentController extends BaseController {
   async execute(
     httpRequest: CreateCommentController.Request,
   ): Promise<CreateCommentController.Response> {
-    const {
-      userId, postId, title, text,
-    } = httpRequest.body!;
+    const userId = httpRequest.userId!;
+    const { postId, title, text } = httpRequest.body!;
+    const postOrError = await this.getPostById.execute(postId);
+    if (postOrError instanceof PostNotFoundError) {
+      return notFound(postOrError);
+    }
     const id = await this.createComment.execute({
       userId, postId, title, text,
     });
@@ -27,6 +33,6 @@ export class CreateCommentController extends BaseController {
 }
 
 export namespace CreateCommentController {
-  export type Request = HttpRequest<CreateCommentInterface.Request>;
-  export type Response = HttpResponse<{ id: string }>;
+  export type Request = HttpRequest<Omit<CreateCommentInterface.Request, 'userId'>>;
+  export type Response = HttpResponse<{ id: string } | PostNotFoundError>;
 }

@@ -27,7 +27,8 @@ const makeFakeHttpRequest = (): HttpRequest => {
     userId, title, text,
   } = makeFakePost();
   return {
-    body: { userId, title, text },
+    userId,
+    body: { title, text },
   };
 };
 
@@ -37,7 +38,7 @@ describe('CreatePostController', () => {
     const createPostSpy = jest.spyOn(createPostStub, 'execute');
     const httpRequest = makeFakeHttpRequest();
     await sut.handle(httpRequest);
-    expect(createPostSpy).toHaveBeenCalledWith(httpRequest.body);
+    expect(createPostSpy).toHaveBeenCalledWith({ userId: httpRequest.userId, ...httpRequest.body });
   });
 
   it('should return 200 on success', async () => {

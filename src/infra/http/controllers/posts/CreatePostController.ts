@@ -14,13 +14,14 @@ export class CreatePostController extends BaseController {
   }
 
   async execute(httpRequest: CreatePostController.Request): Promise<CreatePostController.Response> {
-    const { userId, title, text } = httpRequest.body!;
+    const userId = httpRequest.userId!;
+    const { title, text } = httpRequest.body!;
     const id = await this.createPost.execute({ userId, title, text });
     return ok({ id });
   }
 }
 
 export namespace CreatePostController {
-  export type Request = HttpRequest<CreatePostInterface.Request>;
+  export type Request = HttpRequest<Omit<CreatePostInterface.Request, 'userId'>>;
   export type Response = HttpResponse<{ id: string }>;
 }
