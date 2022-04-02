@@ -16,9 +16,9 @@ An API documentation with some requests and responses examples is available on [
 
 ## Architecture
 
-To separate concerns, the application was built with a **Clean Architecture**. The application is divided into **Domain**, **Application**, and **Infrastructure** layers: There is also a **Main** layer, which is the entry point of the application.
+To separate concerns, the application was built with a **Clean Architecture**. It is divided into **Domain**, **Application**, and **Infrastructure** layers: There is also a **Main** layer, which is the entry point of the API.
 
-There are unit and integration tests covering each layer of the application. The main tool used to test the application is [Jest](https://facebook.github.io/jest/).
+There are unit and integration tests covering each layer. The main tool used for testing is [Jest](https://facebook.github.io/jest/).
 
 To cover the **Main** layer, integration tests were created to test the HTTP requests of the API. That way, I can assure that the [Express](https://expressjs.com/) server is working correctly, all the adapters are also working as expected, and all the dependencies are being injected correctly.
 For all the other layers, unit tests were created, using mocks and stubs to mock the dependencies.
@@ -27,11 +27,11 @@ And for testing the MongoDB, an in-memory implementation was used as a Jest pres
 
 > Due to a lack of time, the tests were implemented just for posts. And the integration tests were implemented just for login and signup.
 > 
-> However, as mentioned above, the tests were implemented to cover all layers, and the same approach was used to test the controllers, middlewares, repositories, routes, etc. for posts. It can also be used to test comments or any other subdomain.
+> However, as mentioned above, the tests were implemented to cover all layers. And the same approach that was used to test the controllers, middlewares, repositories, routes, etc. for posts, it can also be used to test comments or any other subdomain.
 
 ### Domain Layer
 
-The **Domain** layer is the layer that contains the business logic of the application. It contains the **Entities**, which are the classes that represent the data of the application. This layer is isolated from outer layers concerns.
+The **Domain** layer is the layer that contains the business logic of the application. It contains the **Entities**, which are the classes that represent the data of the API. This layer is isolated from outer layers concerns.
 
 Due to limited time, I decided to take a simpler approach here. And, although some **Domain-Driven Design** patterns have been implemented, such as **DTOs**, **Mappers** , **Entities**, and the **Repository** pattern. Some other DDD patterns could also be implemented to enrich the application domain, and avoid illegal operations and illegal states.
 
@@ -39,7 +39,7 @@ Such as **Value Objects**, they could be used to define the minimum and maximum 
 
 ### Application Layer
 
-The **Application** layer is the layer that contains the _application specific_ business rules. It implements all the use cases of the application, it uses the domain classes, but it is isolated from the details and implementation of outer layers, such as databases, adapters, etc. This layer just holds interfaces to interact with the outside world.
+The **Application** layer is the layer that contains the _application specific_ business rules. It implements all the use cases of the API, it uses the domain classes, but it is isolated from the details and implementation of outer layers, such as databases, adapters, etc. This layer just holds interfaces to interact with the outside world.
 
 I also defined interfaces for each use case, in order to make the application more testable, since I'm using these interfaces to create stubs for testing the controllers and middlewares in the infrastructure layer.
 
@@ -84,7 +84,7 @@ $ npm run test:ci
 # This will also generate the coverage report
 ```
 
-Use the following command to run [Eslint](https://eslint.org) from the command line:
+Use the following command to run [ESLint](https://eslint.org) from the command line:
 
 ```bash
 $ npm run lint
